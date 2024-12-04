@@ -14,6 +14,7 @@ import { useUserStore } from "@/stores/auth/user/user.store";
 import { toast } from "@/components/ui/use-toast";
 import { preInvestList } from "data/pre-invest-notify";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { publicApiUrl } from "../../../services/config";
 
 const SafetyNotices = () => {
   const router = useRouter();
@@ -178,7 +179,7 @@ export default SafetyNotices;
 
 // REVIEW: eval possible refactor to Store (Singlenton: update profile and setStore)
 async function fetchData(payload: any, id: number) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/${id}`, {
+  const res = await fetch(`${publicApiUrl}/profile/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

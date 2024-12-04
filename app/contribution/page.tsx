@@ -2,20 +2,19 @@ import Balance from "@/components/contribution/Balance";
 import DataTable from "@/components/contribution/DataTable";
 import Payment from "@/components/contribution/Payment";
 import { fetch_getContributionsByInvestor } from "@/lib/data/contribution";
-import { getServerSession } from "next-auth";
 import React from "react";
-import { authOptions } from "../api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 import ContractSigning from "@/components/contribution/ContractSigning";
+import { getSessionByUserEmail } from "../../services/session";
 
 const page = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await getSessionByUserEmail();
   // console.log("session Layout", session);
   if (!session) {
     redirect("/api/auth/signin");
     return null;
   }
-  const userId = parseInt(session.user.id);
+  const userId = session.user.id;
   const contributions = await fetch_getContributionsByInvestor(userId);
   return (
     <div className="flex grid-cols-1 flex-col items-center justify-center gap-4 md:grid md:grid-cols-3 md:items-start md:justify-start lg:px-12">

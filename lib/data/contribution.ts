@@ -1,3 +1,4 @@
+import { publicApiUrl } from "../../services/config";
 import {
   ContributionByInvestorResponse,
   ContributionRequest,
@@ -52,7 +53,7 @@ export async function fetch_getContributionsByInvestor(
 ): Promise<ContributionByInvestorResponse[]> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/contribution/investor/${userId}`,
+      `${publicApiUrl}/contribution/investor/${userId}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },

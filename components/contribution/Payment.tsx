@@ -2,6 +2,7 @@
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 import { useContributionStore } from "@/stores/contribution/contribution.store";
+import { publicStoragePaymentUrl } from "../../services/config";
 
 const Payment = () => {
   const { contribution } = useContributionStore();
@@ -70,7 +71,7 @@ const Payment = () => {
               {contribution?.contributorId &&
                 contribution?.payment.invoiceFile !== null && (
                   <a
-                    href={`${process.env.NEXT_PUBLIC_STORAGE_PAYMENT_URL}/${contribution?.contributorId}/${contribution?.projectId}/${contribution?.payment.invoiceFile}`}
+                    href={`${publicStoragePaymentUrl}/${contribution?.contributorId}/${contribution?.projectId}/${contribution?.payment.invoiceFile}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full rounded-xl border-none bg-transparent px-4 text-base font-light"

@@ -5,10 +5,12 @@ import Link from "next/link";
 import useScroll from "@/lib/hooks/use-scroll";
 import { useSignInModal } from "./sign-in-modal";
 import UserDropdown from "./user-dropdown";
-import { Session } from "next-auth";
 import { useSessionStore } from "@/stores/index";
 import { useEffect, useRef } from "react";
 import { useUserStore } from "@/stores/auth/user/user.store";
+import { Session } from "../../schemas/session/session";
+import { fetchUser } from "../../services/user";
+import { UserBackToUserFrontStore } from "../../adapters/auth/userBackToUserFrontStore";
 
 export default function NavBar({ session }: { session: Session | null }) {
   const { SignInModal, setShowSignInModal } = useSignInModal();
@@ -18,19 +20,18 @@ export default function NavBar({ session }: { session: Session | null }) {
 
   const { setUser } = useUserStore();
 
+  const getUserByEmail = async (email: string) => {
+    try {
+      const userBack = await fetchUser(email);
+      if (!userBack) throw Error(`User with email '${email}' not found`);
+      const userFrontStore = UserBackToUserFrontStore(userBack);
+      setUser(userFrontStore);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchUser = async (email: string) => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/users?email=${email}`,
-        );
-        const resToJson = await response.json();
-        // console.log("userData", resToJson);
-        setUser(resToJson.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     if (session && session !== prevSessionRef.current) {
       prevSessionRef.current = session;
       setUserSession({
@@ -40,7 +41,7 @@ export default function NavBar({ session }: { session: Session | null }) {
       });
       console.log("se ejecuta.....");
       if (session.user?.email) {
-        fetchUser(session.user.email);
+        getUserByEmail(session.user.email);
       }
     }
   }, [session, setUserSession, setUser]);

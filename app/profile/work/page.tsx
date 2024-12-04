@@ -10,11 +10,12 @@ import { RefreshCwIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/stores/auth/user/user.store";
 import { toast } from "@/components/ui/use-toast";
+import { publicApiUrl } from "../../../services/config";
 // type Profile = {
 //   [key in keyof ProfileModel]: ProfileModel[key];
 // };
 async function fetchData(payload: any, id: number) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/${id}`, {
+  const res = await fetch(`${publicApiUrl}/profile/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

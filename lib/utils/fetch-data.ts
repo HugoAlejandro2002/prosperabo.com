@@ -2,6 +2,7 @@
 // import { cookies } from "next/headers";
 
 import useAuthStore from "@/stores/auth/token.store";
+import { enviorment } from "../../services/config";
 
 const fetchData = async (url: string, options: RequestInit = {}) => {
   try {
@@ -14,7 +15,7 @@ const fetchData = async (url: string, options: RequestInit = {}) => {
     // const token =
     //   getCookie("__Secure-next-auth.session-token") ||
     //   getCookie("next-auth.session-token");
-    console.log(" process.env.NODE_ENV", process.env.NODE_ENV);
+    console.log(" enviorment", enviorment);
     console.log(" token", token);
 
     if (!token) {
@@ -22,7 +23,7 @@ const fetchData = async (url: string, options: RequestInit = {}) => {
     }
 
     const xCookieNameToUse =
-      process.env.NODE_ENV === "development"
+      enviorment === "development"
         ? "next-auth.session-token"
         : "__Secure-next-auth.session-token";
     console.log(xCookieNameToUse);
