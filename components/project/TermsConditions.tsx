@@ -13,6 +13,7 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { publicApiUrl, publicApiVersion } from "../../services/config";
 
 interface FinancialStatementProps {
   url: string | null;
@@ -20,8 +21,7 @@ interface FinancialStatementProps {
 
 const FinancialStatement: React.FC<FinancialStatementProps> = ({ url }) => {
   const replaceOrigin: string | RegExp =
-    process.env.NEXT_PUBLIC_API_URL ||
-    "https://www.services.prosperabo.com/api/v1";
+    publicApiUrl || "https://www.services.prosperabo.com/api/v1";
 
   return (
     <Dialog>
@@ -39,10 +39,7 @@ const FinancialStatement: React.FC<FinancialStatementProps> = ({ url }) => {
           <iframe
             src={
               url
-                ? url?.replace(
-                    replaceOrigin,
-                    `/api/proxy/${process.env.NEXT_PUBLIC_API_VERSION}`,
-                  )
+                ? url?.replace(replaceOrigin, `/api/proxy/${publicApiVersion}`)
                 : "/TestPDFfile.pdf"
             }
             height="100%"
@@ -57,7 +54,7 @@ const FinancialStatement: React.FC<FinancialStatementProps> = ({ url }) => {
               <PDFViewer
                 fileUrl={url?.replace(
                   replaceOrigin,
-                  `/api/proxy/${process.env.NEXT_PUBLIC_API_VERSION}`,
+                  `/api/proxy/${publicApiVersion}`,
                 )}
               />
             </Suspense>

@@ -21,6 +21,7 @@ import { fetchContributionInvest } from "@/lib/data/contribution";
 import { toast } from "@/components/ui/use-toast";
 import UploadFile from "@/components/shared/UploadFile";
 import useLoadingStore from "@/stores/loading.store";
+import { bank } from "../../services/config";
 interface SafetyNoticesProps {
   amount: number;
   projectId: number;
@@ -131,7 +132,7 @@ const SafetyNotices = ({
               loadingId="invoiceFile"
               onFileUpload={handleSubmit}
               title="Comprobante de pago (Formato: PDF, JPG, PNG.)"
-              description={`Seleccione archivo del comprobante de pago de la transferencia bancaria correspondiente a la inversión de Bs. ${amount}. La transferencia debe ser realizada al Número de cuenta: ${process.env.NEXT_PUBLIC_BANK_ACCOUNT} (Banco ${process.env.NEXT_PUBLIC_BANK_NAME}) a nombre de ${process.env.NEXT_PUBLIC_COMPANY_NAME}.
+              description={`Seleccione archivo del comprobante de pago de la transferencia bancaria correspondiente a la inversión de Bs. ${amount}. La transferencia debe ser realizada al Número de cuenta: ${bank.account} (Banco ${bank.name}) a nombre de ${bank.companyName}.
                 Nota: El comprobante de pago debe ser claro y legible. De lo contrario, no será aceptado.
                 Al seleccionar el comprobante se habilitará el botón de continuar.`}
               buttonText="Continuar"

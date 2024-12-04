@@ -10,9 +10,10 @@ import FileSaver from "file-saver";
 import { RefreshCwIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
+import { publicApiUrl } from "../../../services/config";
 
 async function fetchData(payload: any, id: number) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/${id}`, {
+  const res = await fetch(`${publicApiUrl}/profile/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

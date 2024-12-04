@@ -1,12 +1,13 @@
 import { Profile, type ProfileRequest } from "@/lib/definitions";
 import { formatDateString } from "@/lib/utils";
+import { publicApiUrl } from "../../services/config";
 
 export async function fetchVerifySignContract(
   userId: number,
 ): Promise<Partial<Profile> | null> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/profile/verifySignedContract/${userId}`,
+      `${publicApiUrl}/profile/verifySignedContract/${userId}`,
       {
         method: "GET",
         headers: {

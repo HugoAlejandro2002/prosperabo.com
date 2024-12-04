@@ -5,7 +5,6 @@ import { signOut } from "next-auth/react";
 import { LayoutDashboard, LogOut, RulerIcon } from "lucide-react";
 import Popover from "@/components/shared/popover";
 import Image from "next/image";
-import { Session } from "next-auth";
 import Link from "next/link";
 import { resetAllStores } from "@/stores/index";
 import { fetchVerifySignContract } from "@/lib/data/profile";
@@ -13,11 +12,12 @@ import { useRouter } from "next/navigation";
 import { useUserStore } from "@/stores/auth/user/user.store";
 import { useRouterRefStore } from "@/stores/route-ref/routeref.store";
 import { toast } from "@/components/ui/use-toast";
+import { Session } from "../../schemas/session/session";
 
 export default function UserDropdown({ session }: { session: Session }) {
   const { email, image } = session?.user || {};
   const [openPopover, setOpenPopover] = useState(false);
-  const userId = parseInt(session.user.id);
+
   const { setProfileExist } = useUserStore();
   const { setRouteRef } = useRouterRefStore();
   const router = useRouter();
@@ -29,6 +29,7 @@ export default function UserDropdown({ session }: { session: Session }) {
   }
 
   async function handleToRoute(event: any) {
+    const userId = session.user.id;
     const verifiedContrat = await fetchVerifySignContract(userId);
     console.log("verifiedContrat", verifiedContrat);
 

@@ -9,20 +9,12 @@ import { RefreshCwIcon, UploadCloudIcon } from "lucide-react";
 import Select from "@/components/shared/Select";
 import { regions } from "data/bo-depts";
 import { useSessionStore } from "@/stores/auth/session.store";
-import { Profile } from "@prisma/client";
 import { getMaxDate, getMinDate } from "@/lib/utils/date.util";
-
-type PersonalInfo = {
-  gender: string | null;
-  birthDate: string | Date | null;
-  address: string;
-  frontIdentityFile: File | string | null;
-  reverseIdentityFile: File | string | null;
-};
+import { PersonalInfo } from "../../schemas/profile/personalInfo";
 
 interface FormProps {
   onSubmit: (profileForm: any) => void;
-  profileForm?: Profile;
+  profileForm?: PersonalInfo;
   //  contactForm?: IMainCompanyContact;
   // onSubmitForm: (contactForm: IMainCompanyContact) => void;
 }
@@ -35,22 +27,13 @@ const PersonalInfoForm: React.FC<FormProps> = ({ profileForm, onSubmit }) => {
   const userSession = useSessionStore((state) => state.user);
   const [loading, setLoading] = useState(false);
   const [checkin, setCheckState] = useState(false);
-  // const [formState, setFormState] = useState<Profile>({
-  /*   const [formState, setFormState] = useState<PersonalInfo>({
-    gender: profileForm?.gender || "" || null,
-    birthDate: profileForm?.birthdate || "",
-    address: profileForm?.address || "",
-    frontIdentityFile: profileForm?.frontIdDocumentFile || File || null,
-    reverseIdentityFile: profileForm?.reverseIdDocumentFile || null,
-    // ? // frontIdentityFile: profileForm?.frontIdentityFile || File || null,
-    // : profileForm?.reverseIdentityFile || File || "",
-  }); */
+
   const [formState, setFormState] = useState({
     gender: profileForm?.gender || "",
-    birthDate: profileForm?.birthdate || null, // birthDate: Date() || null,
+    birthDate: profileForm?.birthDate || null,
     address: profileForm?.address || "",
-    frontIdentityFile: profileForm?.frontIdDocumentFile || File,
-    reverseIdentityFile: File || "",
+    frontIdentityFile: profileForm?.frontIdentityFile || File,
+    reverseIdentityFile: profileForm?.reverseIdentityFile || File || "",
   });
   // SCOPE: Handler Errors
   const [hasError, setErrors] = useState({
@@ -62,11 +45,11 @@ const PersonalInfoForm: React.FC<FormProps> = ({ profileForm, onSubmit }) => {
   });
   function checkHasErrors() {
     const newErrors = {
-      gender: formState.gender === "",
-      address: formState.address === "",
-      birthDate: formState.birthDate === null, //|| formState.birthDate === new Date(),
-      frontIdentityFile: formState.frontIdentityFile === File,
-      reverseIdentityFile: formState.reverseIdentityFile === File,
+      gender: !formState.gender || formState.gender === "",
+      address: !formState.address || formState.address === "",
+      birthDate: !formState.birthDate || formState.birthDate === null || formState.birthDate === new Date(),
+      frontIdentityFile: !formState.frontIdentityFile || formState.frontIdentityFile === File,
+      reverseIdentityFile: !formState.reverseIdentityFile || formState.reverseIdentityFile === File,
     };
 
     setErrors(newErrors);
@@ -239,7 +222,7 @@ const PersonalInfoForm: React.FC<FormProps> = ({ profileForm, onSubmit }) => {
               <div className="flex justify-between gap-2.5 py-1.5 pr-5 text-accent max-md:pr-5">
                 {formState.reverseIdentityFile === File
                   ? "Carga el reverso"
-                  : `${formState.reverseIdentityFile.name}`}
+                  : `${formState.reverseIdentityFile?.name}`}
                 <UploadCloudIcon />
               </div>
               <input

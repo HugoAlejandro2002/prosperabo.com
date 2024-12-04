@@ -1,19 +1,8 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
+import { UserFrontStore } from "../../../schemas/user/userFrontStore";
 
-type User = {
-  id?: number;
-  email?: string | null;
-  name?: string | null;
-  companyId?: number | null;
-  password?: string | null;
-  emailVerified?: boolean | null;
-  image?: string | null;
-  profile?: string | null;
-  role?: string | null;
-  createdAt?: Date | string | null;
-  updatedAt?: Date | string;
-};
+type User = UserFrontStore;
 
 // SCOPE: STORE
 interface State {

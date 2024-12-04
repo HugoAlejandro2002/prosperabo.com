@@ -1,6 +1,8 @@
 // app/api/products/route.ts
 // import { NextResponse } from "next/server";
 
+import { baseApiUrl } from "../../../services/config";
+
 export async function GET(request: Request) {
   try {
     // const url = new URL(request.url);
@@ -8,8 +10,8 @@ export async function GET(request: Request) {
     console.log("SERVER >>>");
 
     const response = await fetch(
-      `${process.env.BASE_API_URL}/api/projects`,
-      // `${process.env.BASE_API_URL}/api/projects/list?page=${page}`,
+      `${baseApiUrl}/api/projects`,
+      // `${baseApiUrl}/api/projects/list?page=${page}`,
       // `/api/projects/list?page=${page}`,
       {
         headers: {

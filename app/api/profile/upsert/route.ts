@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { baseApiUrl, enviorment } from "../../../../services/config";
 
 export async function POST(request: Request) {
   try {
@@ -14,13 +15,13 @@ export async function POST(request: Request) {
     }
     console.log(token);
     const xCookieNameToUse =
-      process.env.NODE_ENV === "development"
+      enviorment === "development"
         ? "next-auth.session-token"
         : "__Secure-next-auth.session-token";
 
     const formData = await request.formData();
     // console.log("formData", formData);
-    const response = await fetch(`${process.env.BASE_API_URL}/profile/upsert`, {
+    const response = await fetch(`${baseApiUrl}/profile/upsert`, {
       method: "POST",
       body: formData,
       headers: { Cookie: `${xCookieNameToUse}=${token}` },

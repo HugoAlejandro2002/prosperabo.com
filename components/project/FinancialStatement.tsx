@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import dynamic from "next/dynamic";
+import { publicApiUrl, publicApiVersion } from "../../services/config";
 const PDFViewer = dynamic(() => import("@/components/shared/PDFViewer"), {
   ssr: false,
 });
@@ -19,8 +20,7 @@ interface FinancialStatementProps {
 
 const FinancialStatement: React.FC<FinancialStatementProps> = ({ url }) => {
   const replaceOrigin: string | RegExp =
-    process.env.NEXT_PUBLIC_API_URL ||
-    "https://www.services.prosperabo.com/api/v1";
+    publicApiUrl || "https://www.services.prosperabo.com/api/v1";
   return (
     <Dialog>
       <DialogTrigger className="w-fit grow justify-center rounded-2xl border-4 border-solid border-white px-5 py-4 text-center max-md:px-5">
@@ -37,10 +37,7 @@ const FinancialStatement: React.FC<FinancialStatementProps> = ({ url }) => {
             // suppressHydrationWarning={true}
             src={
               url
-                ? url?.replace(
-                    replaceOrigin,
-                    `/api/proxy/${process.env.NEXT_PUBLIC_API_VERSION}`,
-                  )
+                ? url?.replace(replaceOrigin, `/api/proxy/${publicApiVersion}`)
                 : "/TestPDFfile.pdf"
             }
             height="100%"
@@ -58,7 +55,7 @@ const FinancialStatement: React.FC<FinancialStatementProps> = ({ url }) => {
                 url
                   ? url?.replace(
                       replaceOrigin,
-                      `/api/proxy/${process.env.NEXT_PUBLIC_API_VERSION}`,
+                      `/api/proxy/${publicApiVersion}`,
                     )
                   : "/TestPDFfile.pdf"
               }

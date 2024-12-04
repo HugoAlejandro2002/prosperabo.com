@@ -1,20 +1,19 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 import { fetchVerifySignContract } from "@/lib/data/profile";
+import { getSessionByUserEmail } from "../../services/session";
 
 export default async function ProfileLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await getSessionByUserEmail();
   console.log("session Layout", session);
   if (!session) {
     redirect("/api/auth/signin");
     return null;
   }
-  const userId = parseInt(session.user.id);
+  const userId = session.user.id;
   const verifiedContrat = await fetchVerifySignContract(userId);
   console.log("verifiedContrat", verifiedContrat);
 

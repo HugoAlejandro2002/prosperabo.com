@@ -13,6 +13,7 @@ import LinkImage from "@/components/shared/LinkImage";
 // import InvestmentSimulator from "@/components/project/InvestmentSimulator";
 // REF.: https://nextjs.org/docs/messages/react-hydration-error#solution-2-disabling-ssr-on-specific-components
 import dynamic from "next/dynamic";
+import { publicApiUrl } from "../../../services/config";
 const InvestmentSimulator = dynamic(
   () => import("@/components/project/InvestmentSimulator"),
   { ssr: false },
@@ -56,12 +57,10 @@ const ProjectPage = async ({ params }: { params: { id: string } }) => {
             <div className="my-4 flex items-center justify-center gap-0.5 lg:gap-3">
               <StatusBadge status={parseInt(project?.status)} />:
               <Progress
-                value={
-                  Math.min(
-                    (1 - project?.availablePortions / project?.qtyPortions) * 100,
-                    100
-                  )
-                }
+                value={Math.min(
+                  (1 - project?.availablePortions / project?.qtyPortions) * 100,
+                  100,
+                )}
                 className="w-[150px]"
               />
             </div>
@@ -82,8 +81,8 @@ const ProjectPage = async ({ params }: { params: { id: string } }) => {
               <div className="col-span-3 items-center justify-center sm:col-span-3 md:col-span-3 lg:col-span-3">
                 {/* <TermsConditions url={project?.Company?.termsConditionsFile} /> */}
                 <TermsConditions
-                  url={`${process.env.NEXT_PUBLIC_API_URL}/company/${project?.companyId}/${project?.Company?.termsConditionsFile}`}
-                // url={`/api/proxy/${process.env.NEXT_PUBLIC_API_VERSION}/company/${project.companyId}/${project?.Company?.termsConditionsFile}`}
+                  url={`${publicApiUrl}/company/${project?.companyId}/${project?.Company?.termsConditionsFile}`}
+                  // url={`/api/proxy/${publicApiVersion}/company/${project.companyId}/${project?.Company?.termsConditionsFile}`}
                 />
               </div>
             </section>
@@ -118,7 +117,7 @@ const ProjectPage = async ({ params }: { params: { id: string } }) => {
         <section
           id="information"
           className="col-span-2 mt-24 px-0 sm:mt-10 sm:max-w-full sm:px-5 md:mt-24 md:px-16 lg:mt-24 lg:px-16"
-        // className="col-span-2 mt-24 bg-gradient-to-tl from-teal-800 from-0% via-slate-950 via-70% to-accent to-100%  px-6 sm:mt-10 sm:max-w-full sm:px-5 md:mt-24 md:px-16 lg:mt-24 lg:px-16"
+          // className="col-span-2 mt-24 bg-gradient-to-tl from-teal-800 from-0% via-slate-950 via-70% to-accent to-100%  px-6 sm:mt-10 sm:max-w-full sm:px-5 md:mt-24 md:px-16 lg:mt-24 lg:px-16"
         >
           <div className="z-10 flex items-center justify-center rounded-[36px] border-8 border-solid border-white py-14 max-md:mt-10 max-md:max-w-full max-md:px-5">
             <div className="w-full max-w-[1022px] max-md:max-w-full">
